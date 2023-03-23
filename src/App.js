@@ -15,60 +15,72 @@ function App() {
   const [sentimentScore, setSentimentScore] = useState(null);
 
   useEffect(() => {
-    async function getChatMessages(streamURL, APIKey, chatMesages) {
 
-      let streamId = streamURL.substring(32, streamURL.length);
-      let liveChatId = '';
-    
-      // GET ChatID
-      try {
-        var res = await fetch(
-          `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&key=${APIKey}&id=${streamId}`
-        );
-    
-        var data = await res.json();
-    
-        if (!data.error) {
-          if (!data.items.length == 0) {
-            liveChatId = data.items[0].liveStreamingDetails.activeLiveChatId;
-          } else {
-            console.log('LiveStream not found.');
-          }
-        }
-      } catch {
-        console.log('error occured');
-      }
-    
-      // GET the LiveStream Messages
-      try {
-        var res = await fetch(
-          `https://www.googleapis.com/youtube/v3/liveChat/messages?part=id%2C%20snippet&key=${APIKey}&liveChatId=${liveChatId}`
-        );
-    
-        var data = await res.json();
-    
-        if (!data.error) {
-          if (!data.items.length == 0) {
-            for (var i = 0; i < data.items.length; i++) {
-              chatMesages.add(data.items[i].snippet.displayMessage);
+    if (streamURL == '')
+      return;
+    else {
+      async function getChatMessages(streamURL, APIKey, chatMesages) {
+
+        let streamId = streamURL.substring(32, streamURL.length);
+        let liveChatId = '';
+
+        // GET ChatID
+        try {
+          var res = await fetch(
+            `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&key=${APIKey}&id=${streamId}`
+          );
+
+          var data = await res.json();
+
+          if (!data.error) {
+            if (!data.items.length == 0) {
+              liveChatId = data.items[0].liveStreamingDetails.activeLiveChatId;
+            } else {
+              console.log('LiveStream not found.');
             }
-            console.log(' -- ' + i + ' messages returned --')
           }
+        } catch {
+          console.log('error occured');
         }
-      } catch (error) {
-        console.log('error occured');
+
+        // GET the LiveStream Messages
+        try {
+          var res = await fetch(
+            `https://www.googleapis.com/youtube/v3/liveChat/messages?part=id%2C%20snippet&key=${APIKey}&liveChatId=${liveChatId}`
+          );
+
+          var data = await res.json();
+
+          if (!data.error) {
+            if (!data.items.length == 0) {
+              for (var i = 0; i < data.items.length; i++) {
+                chatMesages.add(data.items[i].snippet.displayMessage);
+              }
+              // console.log(' -- ' + i + ' messages returned --')
+            }
+          }
+        } catch (error) {
+          console.log('error occured');
+        }
+
+        let sentimentIterationScore = 0;
+
+        // Iterate over each chat message and analyze it for sentiment analysis
+        chatMesages.forEach((message) => {
+          console.log(message);
+          sentimentIterationScore += sentiment.analyze(message).score;
+        });
+
+        setSentimentScore(sentimentIterationScore);
       }
 
-      let score = 0;
+      // Get new Chat Messages every 5 seconds
+      const intervalId = setInterval(() => {
+        getChatMessages(streamURL, APIKey, chatMesages)
+      }, 1000 * 5) // in milliseconds
 
-      chatMesages.forEach((message) => {
-        console.log(message);
-        score += sentiment.analyze(message).score;
-      });
-      setSentimentScore(score);
+      return () => clearInterval(intervalId)
     }
-
-    getChatMessages(streamURL, APIKey, chatMesages);
   }, [streamURL]);
 
   return (
@@ -76,25 +88,20 @@ function App() {
       <header className="App-header">
         <h2>Sentiment Analysis</h2>
 
-        <input value={streamURL} onChange={e => setURL(e.target.value)}
-          style={{ padding: '20px', fontSize: '20px', width: '90%' }}
-        />
+        <input value={streamURL} onChange={e => setURL(e.target.value)} style={{ padding: '20px', fontSize: '20px', width: '90%' }}/>
 
         {
-          sentimentScore !== null ?
-            <p>Sentiment Score: {sentimentScore}</p>
-            : ''
+          sentimentScore !== null ? <p>Sentiment Score: {sentimentScore}</p> : ''
         }
 
         {
-          sentimentScore ?
-            sentimentScore === 0 ?
-              <img src={neutralGIF} alt="neutral" />
+          sentimentScore ? sentimentScore === 0 ?
+            <img src={neutralGIF} alt="neutral" />
+            :
+            sentimentScore > 0 ?
+              <img src={positiveGIF} alt="postive" />
               :
-              sentimentScore > 0 ?
-                <img src={positiveGIF} alt="postive" />
-                :
-                <img src={negativeGIF} alt="negative" />
+              <img src={negativeGIF} alt="negative" />
             : ''
         }
 
