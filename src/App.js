@@ -10,7 +10,7 @@ import Sentiment from 'sentiment';
 const sentiment = new Sentiment();
 const livestreamServices = new LiveStreamingServices();
 const chatMesages = new Set();
-const APIKey = "AIzaSyBVbinTPWD4oHvoJYsiLzGArsrN55Vvni0";
+const APIKey = "<API KEY HERE>";
 
 function App() {
   const [streamURL, setURL] = useState('');
