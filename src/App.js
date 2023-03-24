@@ -8,7 +8,7 @@ import Sentiment from 'sentiment';
 
 const sentiment = new Sentiment();
 const chatMesages = new Set();
-const APIKey = "AIzaSyBVbinTPWD4oHvoJYsiLzGArsrN55Vvni0";
+const APIKey = "<PUT API KEY HERE>";
 
 function App() {
   const [streamURL, setURL] = useState('');
