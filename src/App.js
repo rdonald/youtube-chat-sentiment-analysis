@@ -4,11 +4,13 @@ import negativeGIF from './images/negativeGIF.gif';
 import neutralGIF from './images/neutralGIF.gif';
 
 import React, { useState, useEffect } from 'react';
+import { LiveStreamingServices } from './services/livestreamServices';
 import Sentiment from 'sentiment';
 
 const sentiment = new Sentiment();
+const livestreamServices = new LiveStreamingServices();
 const chatMesages = new Set();
-const APIKey = "<PUT API KEY HERE>";
+const APIKey = "AIzaSyBVbinTPWD4oHvoJYsiLzGArsrN55Vvni0";
 
 function App() {
   const [streamURL, setURL] = useState('');
@@ -24,44 +26,9 @@ function App() {
         let streamId = streamURL.substring(32, streamURL.length);
         let liveChatId = '';
 
-        // GET ChatID
-        try {
-          var res = await fetch(
-            `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&key=${APIKey}&id=${streamId}`
-          );
+        liveChatId = livestreamServices.getLivestreamChatId(APIKey, streamURL, liveChatId);
 
-          var data = await res.json();
-
-          if (!data.error) {
-            if (!data.items.length == 0) {
-              liveChatId = data.items[0].liveStreamingDetails.activeLiveChatId;
-            } else {
-              console.log('LiveStream not found.');
-            }
-          }
-        } catch {
-          console.log('error occured');
-        }
-
-        // GET the LiveStream Messages
-        try {
-          var res = await fetch(
-            `https://www.googleapis.com/youtube/v3/liveChat/messages?part=id%2C%20snippet&key=${APIKey}&liveChatId=${liveChatId}`
-          );
-
-          var data = await res.json();
-
-          if (!data.error) {
-            if (!data.items.length == 0) {
-              for (var i = 0; i < data.items.length; i++) {
-                chatMesages.add(data.items[i].snippet.displayMessage);
-              }
-              // console.log(' -- ' + i + ' messages returned --')
-            }
-          }
-        } catch (error) {
-          console.log('error occured');
-        }
+        livestreamServices.getLivestreamChatMessages(APIKey, liveChatId, chatMesages)
 
         let sentimentIterationScore = 0;
 
