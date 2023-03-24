@@ -40,6 +40,7 @@ export class LiveStreamingServices {
                     // console.log(' -- ' + i + ' messages returned --')
                 }
             }
+            return chatMesages;
         } catch (error) {
             console.log('error occured');
         }

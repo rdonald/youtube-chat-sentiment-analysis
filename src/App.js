@@ -10,7 +10,7 @@ import Sentiment from 'sentiment';
 const sentiment = new Sentiment();
 const livestreamServices = new LiveStreamingServices();
 const chatMesages = new Set();
-const APIKey = "<API KEY HERE>";
+const APIKey = "<API_KEY_HERE>";
 
 function App() {
   const [streamURL, setURL] = useState('');
@@ -22,13 +22,11 @@ function App() {
       return;
     else {
       async function getChatMessages(streamURL, APIKey, chatMesages) {
-
-        let streamId = streamURL.substring(32, streamURL.length);
         let liveChatId = '';
 
-        liveChatId = livestreamServices.getLivestreamChatId(APIKey, streamURL, liveChatId);
+        liveChatId = await livestreamServices.getLivestreamChatId(APIKey, streamURL, liveChatId);
 
-        livestreamServices.getLivestreamChatMessages(APIKey, liveChatId, chatMesages)
+        await livestreamServices.getLivestreamChatMessages(APIKey, liveChatId, chatMesages);
 
         let sentimentIterationScore = 0;
 
