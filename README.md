@@ -18,4 +18,4 @@ Once there follow these steps:
 - Click into 'Enabled APIs & Services'
 - Navigate into 'Credentials' and Create an API key then enable it on 'YouTube Data API v3'
 
-Once this is done replace <API KEY HERE> in the App.js with the API Key you just created on the google cloud.
+Once this is done replace 'API KEY HERE' in the App.js with the API Key you just created on the google cloud.
