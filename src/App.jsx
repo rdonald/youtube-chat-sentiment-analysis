@@ -17,7 +17,7 @@ function App() {
   var Highcharts = require('highcharts');
   require('highcharts/highcharts-more')(Highcharts);
 
-  const [streamURL, setURL] = useState('');
+  const [streamURL, setStreamURL] = useState('');
   const [sentimentScore, setSentimentScore] = useState(null);
 
   const [chartOptions, setChartOptions] = useState ({
@@ -159,10 +159,10 @@ function App() {
 
         <HighchartsReact highcharts={Highcharts} options={chartOptions}></HighchartsReact>
 
-        <input value={streamURL} onChange={e => setURL(e.target.value)} style={{ padding: '20px', fontSize: '20px', width: '90%' }} />
+        <input value={streamURL} onChange={e => setStreamURL(e.target.value)} style={{ padding: '20px', fontSize: '20px', width: '90%' }}/>
 
         {
-          sentimentScore !== null ? <p>Sentiment Score: {sentimentScore}</p> : ''
+          sentimentScore ? <p>Sentiment Score: {sentimentScore}</p> : ''
         }
 
         {
