@@ -12,7 +12,7 @@ const LiveStreamingServices = {
             var data = await res.json();
 
             if (!data.error) {
-                if (!data.items.length == 0) {
+                if (data.items.length) {
                     return liveChatId = data.items[0].liveStreamingDetails.activeLiveChatId;
                 } else {
                     console.log('LiveStream not found.');
@@ -33,7 +33,7 @@ const LiveStreamingServices = {
             var data = await res.json();
 
             if (!data.error) {
-                if (!data.items.length == 0) {
+                if (data.items.length) {
                     for (var i = 0; i < data.items.length; i++) {
                         chatMesages.add(data.items[i].snippet.displayMessage);
                     }
