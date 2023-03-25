@@ -19,3 +19,12 @@ Once there follow these steps:
 - Navigate into 'Credentials' and Create an API key then enable it on 'YouTube Data API v3'
 
 Once this is done replace 'API KEY HERE' in the App.js with the API Key you just created on the google cloud.
+
+# AFINN-Based Sentiment Analysis
+This project utilizes the Node.js Sentiment module that uses the AFINN-165 wordlist and emoji sentiment ranking to perform sentiment analysis on blocks of text. 
+
+Sentiment provides several features of which this project mainly uses:
+- The ability to append and overwrite word / value pairs from the AFINN wordlist
+- The ability to easily define custom strategies for negation, emphasis, etc
+
+The Node.js Sentiment module can be found here: https://www.npmjs.com/package/sentiment?activeTab=readme

@@ -18,6 +18,7 @@ function App() {
   require('highcharts/highcharts-more')(Highcharts);
 
   const [streamURL, setStreamURL] = useState('');
+  // TODO: set min and max value to the sentiment score min of -100 and max of 100
   const [sentimentScore, setSentimentScore] = useState(null);
 
   const [chartOptions, setChartOptions] = useState ({
