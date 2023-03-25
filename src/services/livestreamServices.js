@@ -1,6 +1,6 @@
-export class LiveStreamingServices {
+const LiveStreamingServices = {
 
-    async getLivestreamChatId(APIKey, streamURL, liveChatId) {
+    getLivestreamChatId: async function(APIKey, streamURL, liveChatId) {
         let streamId = streamURL.substring(32, streamURL.length);
 
         // GET ChatID
@@ -21,9 +21,9 @@ export class LiveStreamingServices {
         } catch {
             console.log('error occured');
         }
-    }
+    },
 
-    async getLivestreamChatMessages(APIKey, liveChatId, chatMesages) {
+    getLivestreamChatMessages: async function(APIKey, liveChatId, chatMesages) {
         // GET the LiveStream Messages
         try {
             var res = await fetch(
@@ -37,12 +37,12 @@ export class LiveStreamingServices {
                     for (var i = 0; i < data.items.length; i++) {
                         chatMesages.add(data.items[i].snippet.displayMessage);
                     }
-                    // console.log(' -- ' + i + ' messages returned --')
                 }
             }
-            return chatMesages;
         } catch (error) {
             console.log('error occured');
         }
     }
 }
+
+export default LiveStreamingServices;

@@ -4,11 +4,10 @@ import negativeGIF from './images/negativeGIF.gif';
 import neutralGIF from './images/neutralGIF.gif';
 
 import React, { useState, useEffect } from 'react';
-import { LiveStreamingServices } from './services/livestreamServices';
+import LiveStreamingServices from "./services/livestreamServices.js";
 import Sentiment from 'sentiment';
 
 const sentiment = new Sentiment();
-const livestreamServices = new LiveStreamingServices();
 const chatMesages = new Set();
 const APIKey = "<API_KEY_HERE>";
 
@@ -24,9 +23,9 @@ function App() {
       async function getChatMessages(streamURL, APIKey, chatMesages) {
         let liveChatId = '';
 
-        liveChatId = await livestreamServices.getLivestreamChatId(APIKey, streamURL, liveChatId);
+        liveChatId = await LiveStreamingServices.getLivestreamChatId(APIKey, streamURL, liveChatId);
 
-        await livestreamServices.getLivestreamChatMessages(APIKey, liveChatId, chatMesages);
+        await LiveStreamingServices.getLivestreamChatMessages(APIKey, liveChatId, chatMesages);
 
         let sentimentIterationScore = 0;
 
