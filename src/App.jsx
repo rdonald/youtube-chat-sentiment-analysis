@@ -32,7 +32,11 @@ function App() {
     },
   
     title: {
-      text: 'Chat Sentiment Score'
+      text: 'YouTube Chat Sentiment Score'
+    },
+
+    credits: {
+      enabled: false
     },
   
     pane: {
@@ -64,25 +68,41 @@ function App() {
           from: -100,
           to: -40,
           color: '#DF5353', // red
-          thickness: 20
+          thickness: 20,
+          label: { 
+            text: 'Malding',
+            align: 'center'
+          }
         },
         {
           from: -40,
           to: 0,
           color: '#ffcccb', // light red
-          thickness: 20
+          thickness: 20,
+          label: { 
+            text: 'Annoyed',
+            align: 'center'
+          }
         },
         {
           from: -0,
           to: 40,
           color: '#90EE90', // light green
-          thickness: 20
+          thickness: 20,
+          label: { 
+            text: 'Amused',
+            align: 'center'
+          }
         },
         {
           from: 40,
           to: 100,
           color: '#55BF3B', // green
-          thickness: 20
+          thickness: 20,
+          label: { 
+            text: 'Poggers',
+            align: 'center'
+          }
         }]
     },
   
@@ -156,11 +176,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h2>Sentiment Analysis</h2>
-
         <HighchartsReact highcharts={Highcharts} options={chartOptions}></HighchartsReact>
 
-        <input value={streamURL} onChange={e => setStreamURL(e.target.value)} style={{ padding: '20px', fontSize: '20px', width: '90%' }}/>
+        <input value={streamURL} onChange={e => setStreamURL(e.target.value)} style={{ margin: '20px', padding: '20px', fontSize: '20px', width: '40%'}}/>
 
         {
           sentimentScore ? <p>Sentiment Score: {sentimentScore}</p> : ''
