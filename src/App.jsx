@@ -8,6 +8,7 @@ import LiveStreamingServices from "./services/livestreamServices.js";
 import Sentiment from 'sentiment';
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official';
+import { embed } from '@trufflehq/sdk'
 
 const sentiment = new Sentiment();
 const chatMesages = new Set();
@@ -16,6 +17,9 @@ const APIKey = "<API_KEY_HERE>";
 function App() {
   var Highcharts = require('highcharts');
   require('highcharts/highcharts-more')(Highcharts);
+
+  embed.setSize("1000px", "800px")
+  //TODO: prompt("Set the URL");
 
   const [streamURL, setStreamURL] = useState('');
   // TODO: set min and max value to the sentiment score min of -100 and max of 100
