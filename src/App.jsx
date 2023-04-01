@@ -11,10 +11,14 @@ import SentimentChartOptions from './highcharts/sentimentChartOptions.js'
 
 const sentiment = new Sentiment();
 const chatMesages = new Set();
+const negativeChatters = new Set();
+const positiveChatters = new Set();
 const APIKey = "AIzaSyAz-LH1uNPnJiU_mir_RAM5nAiTAIldYQA";
 const URL = prompt('Paste Stream URL:');
 
 function App() {
+
+  embed.setSize("1000px", "600px");
   var Highcharts = require('highcharts');
   require('highcharts/highcharts-more')(Highcharts);
 
@@ -35,9 +39,17 @@ function App() {
       // Iterate over each chat message and analyze it for sentiment analysis
       chatMesages.forEach((message) => {
         console.log(message);
+        if (sentiment.analyze(message).score < 0 && !negativeChatters.has(message)) {
+          document.getElementById("negativeChatters").innerHTML += ("<p>" + message + "</p>");
+          negativeChatters.add(message);
+        } else if (sentiment.analyze(message).score > 0 && !positiveChatters.has(message)) {
+          document.getElementById("positiveChatters").innerHTML += ("<p>" + message + "</p>");
+          positiveChatters.add(message);
+        }
         sentimentIterationScore += sentiment.analyze(message).score;
       });
 
+      // Min and Max to sentiment Score
       if (sentimentIterationScore > 100)
         sentimentIterationScore = 100;
       else if (sentimentIterationScore < -100)
@@ -63,9 +75,9 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <HighchartsReact highcharts={Highcharts} options={chartOptions}></HighchartsReact>
-      </header>
+      <HighchartsReact highcharts={Highcharts} options={chartOptions}></HighchartsReact>
+      <div id="negativeChatters"></div>
+      <div id="positiveChatters"></div>
     </div>
   );
 }
