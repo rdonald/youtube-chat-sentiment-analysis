@@ -28,7 +28,7 @@ function App() {
   // TODO: set min and max value to the sentiment score min of -100 and max of 100
   const [sentimentScore, setSentimentScore] = useState(null);
 
-  const [chartOptions, setChartOptions] = useState (SentimentChartOptions);
+  const [chartOptions, setChartOptions] = useState(SentimentChartOptions);
 
   useEffect(() => {
 
@@ -50,6 +50,12 @@ function App() {
           sentimentIterationScore += sentiment.analyze(message).score;
         });
 
+        if (sentimentIterationScore > 100) {
+          sentimentIterationScore = 100;
+        } else if (sentimentIterationScore < -100) {
+          sentimentIterationScore = -100;
+        }
+
         setSentimentScore(sentimentIterationScore);
 
         setChartOptions({
@@ -63,7 +69,7 @@ function App() {
       const intervalId = setInterval(() => {
         getChatMessages(streamURL, APIKey, chatMesages)
       }, 1000 * 5) // in milliseconds
-      
+
       return () => clearInterval(intervalId)
     }
   }, [streamURL]);
@@ -73,7 +79,7 @@ function App() {
       <header className="App-header">
         <HighchartsReact highcharts={Highcharts} options={chartOptions}></HighchartsReact>
 
-        <input value={streamURL} onChange={e => setStreamURL(e.target.value)} style={{ margin: '20px', padding: '20px', fontSize: '20px', width: '40%'}}/>
+        <input value={streamURL} onChange={e => setStreamURL(e.target.value)} style={{ margin: '20px', padding: '20px', fontSize: '20px', width: '40%' }} />
 
         {
           sentimentScore ? <p>Sentiment Score: {sentimentScore}</p> : ''
