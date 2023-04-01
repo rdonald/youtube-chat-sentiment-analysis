@@ -84,18 +84,7 @@ function App() {
         {
           sentimentScore ? <p>Sentiment Score: {sentimentScore}</p> : ''
         }
-
-        {
-          sentimentScore ? sentimentScore === 0 ?
-            <img src={neutralGIF} alt="neutral" />
-            :
-            sentimentScore > 0 ?
-              <img src={positiveGIF} alt="postive" />
-              :
-              <img src={negativeGIF} alt="negative" />
-            : ''
-        }
-
+        
       </header>
     </div>
   );
