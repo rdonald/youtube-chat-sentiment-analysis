@@ -13,7 +13,7 @@ const sentiment = new Sentiment();
 const chatMesages = new Set();
 const negativeChatters = new Set();
 const positiveChatters = new Set();
-const APIKey = "AIzaSyAz-LH1uNPnJiU_mir_RAM5nAiTAIldYQA";
+const APIKey = "<API_KEY_HERE>";
 const URL = prompt('Paste Stream URL:');
 
 function App() {
