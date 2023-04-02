@@ -75,9 +75,13 @@ function App() {
 
   return (
     <div className="App">
-      <HighchartsReact highcharts={Highcharts} options={chartOptions}></HighchartsReact>
-      <div id="negativeChatters"></div>
-      <div id="positiveChatters"></div>
+        <HighchartsReact highcharts={Highcharts} options={chartOptions}></HighchartsReact>
+        <div id="negativeChatters">
+          <h3 class="header">Malders</h3>
+        </div>
+        <div id="positiveChatters">
+          <h3 class="header">Poggers</h3>
+        </div>
     </div>
   );
 }

@@ -1,6 +1,18 @@
 .App {
   text-align: center;
-  display: inline-block;
+  display: flex;
+}
+
+#negativeChatters {
+  width: 200px;
+}
+
+#positiveChatters {
+  width: 200px;
+}
+
+.header {
+  text-align: center;
 }
 
 .App-logo {
