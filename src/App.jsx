@@ -34,10 +34,19 @@ function App() {
 
       let sentimentIterationScore = 0;
 
+      // Add streamer specific language
+      var options = {
+        extras: {
+          'latewig': -5,
+          'poggers': 5,
+          'pog': 5,
+        }
+      };
+
       // Iterate over each chat message and analyze it for sentiment analysis
       chatMesages.forEach((message) => {
         console.log(message);
-        sentimentIterationScore += sentiment.analyze(message).score;
+        sentimentIterationScore += sentiment.analyze(message, options).score;
       });
 
       // Min and Max to sentiment Score
@@ -58,7 +67,7 @@ function App() {
     // Get new Chat Messages every 5 seconds
     const intervalId = setInterval(() => {
       getChatMessages(streamURL, APIKey, chatMesages)
-    }, 1000 * 5) // in milliseconds
+    }, 1000 * 2) // in milliseconds
 
     return () => clearInterval(intervalId)
 
